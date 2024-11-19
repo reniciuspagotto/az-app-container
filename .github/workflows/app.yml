@@ -1,0 +1,90 @@
+name: Build and Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  AZURE_WEBAPP_NAME: azapprpc-appservice
+  IMAGE_NAME: "azapp"
+  AZ_REGISTRY: "azdevrpf.azurecr.io"
+
+jobs:
+  build:
+    name: Build | Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.x 
+      
+      - name: Dotnet Build
+        run: |
+          dotnet restore
+          dotnet build
+
+      - name: Dotnet Test
+        run: dotnet test
+
+  az-registry:
+    name: Publish Artifact to Azure Container Registry
+    runs-on: ubuntu-latest
+    needs: [ build, image-security, app-security ]
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.AZ_REGISTRY }}
+          username: ${{ secrets.AZ_SP_CLIENT_ID }}
+          password: ${{ secrets.AZ_SP_CLIENT_SECRET }}
+
+      - name: Retrieve Image Version
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.AZ_REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha
+
+      - name: Build and Push Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Azure Web App Deployment
+    runs-on: ubuntu-latest
+    needs: [ az-registry ]
+    steps:
+      - name: Login Azure
+        env:
+          AAD_SERVICE_PRINCIPAL_CLIENT_ID: ${{ secrets.AZ_SP_CLIENT_ID }}
+          AAD_SERVICE_PRINCIPAL_CLIENT_SECRET: ${{ secrets.AZ_SP_CLIENT_SECRET }}
+        run: |
+          az login --service-principal -u ${{ secrets.AZ_SP_CLIENT_ID }} -p ${{ secrets.AZ_SP_CLIENT_SECRET }} --tenant ${{ secrets.AZ_TENANT_ID }}
+          az account set -s ${{ secrets.AZ_SUBSCRIPTION_ID }}
+          az account show
+
+      - name: Azure Web Apps Deployment
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          images: ${{ env.AZ_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.az-registry.outputs.version }}
