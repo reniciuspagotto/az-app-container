@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+  
 env:
   AZURE_WEBAPP_NAME: azapprpc-appservice
   IMAGE_NAME: "azapp"
