@@ -4,11 +4,15 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 3.0.0, < 4.0.0"
+      version = "~>3.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "=2.23.0"
+      version = "2.30.0"
+    }
+    azapi = {
+      source  = "azure/azapi"
+      version = "~>1.5"
     }
   }
 
@@ -17,10 +21,15 @@ terraform {
     storage_account_name = "rpftfstate"
     container_name       = "tfstate"
     key                  = "devapp.tfstate"
+    use_oidc = true
   }
 }
 
 provider "azurerm" {
   use_oidc = true
   features {}
+}
+
+provider "azapi" {
+  use_oidc = true
 }
