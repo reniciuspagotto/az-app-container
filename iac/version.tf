@@ -11,7 +11,7 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "GHTFState"
+    resource_group_name  = "MvpConfOnline"
     storage_account_name = "rpftfstate"
     container_name       = "tfstate"
     key                  = "devapp.tfstate"
