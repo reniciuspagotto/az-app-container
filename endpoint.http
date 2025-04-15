@@ -1,0 +1,12 @@
+POST http://localhost/customer
+Content-Type: application/json
+
+{
+    "FullName": "Renicius Pagotto",
+    "Address": "123 Main St",
+    "Email": "renicius@test.com"
+}
+
+###
+
+GET http://localhost/customer/1
