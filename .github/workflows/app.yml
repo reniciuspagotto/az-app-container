@@ -2,9 +2,9 @@ name: Build and Deploy
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 permissions:
   id-token: write
@@ -86,4 +86,3 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           images: ${{ env.AZ_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.az-registry.outputs.version }}
-          
