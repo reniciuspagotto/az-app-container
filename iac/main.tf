@@ -89,3 +89,27 @@ resource "azurerm_linux_web_app" "main" {
     value = "Server=tcp:${azurerm_mssql_server.main.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.main.name};Persist Security Info=False;User ID=${azurerm_mssql_server.main.administrator_login};Password=${azurerm_mssql_server.main.administrator_login_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
 }
+
+resource "azurerm_container_registry_task" "mytask" {
+  name                  = "product-service-task"
+  container_registry_id = azurerm_container_registry.main.id
+
+  platform {
+    os = "Linux"
+  }
+
+  docker_step {
+    dockerfile_path      = "Dockerfile"
+    context_path         = "https://github.com/reniciuspagotto/az-netapp-container#main:."
+    context_access_token = var.github_pat
+    image_names          = ["azapp:latest"]
+  }
+
+  source_trigger {
+    name            = "code-change"
+    events          = ["commit"]
+    repository_url  = "https://github.com/reniciuspagotto/az-netapp-container.git"
+    branch          = "main"
+    source_type     = "Github"
+  }
+}
