@@ -111,5 +111,11 @@ resource "azurerm_container_registry_task" "mytask" {
     repository_url  = "https://github.com/reniciuspagotto/az-netapp-container.git"
     branch          = "main"
     source_type     = "Github"
+
+    authentication {
+      token      = var.github_pat 
+      token_type = "PAT"
+      scope      = "repo" 
+    }
   }
 }
