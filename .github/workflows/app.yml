@@ -85,4 +85,4 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          images: ${{ env.AZ_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.az-registry.outputs.version }}     
+          images: ${{ env.AZ_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.az-registry.outputs.version }}
