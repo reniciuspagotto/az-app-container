@@ -122,7 +122,7 @@ resource "azurerm_container_registry_task" "mytask" {
 }
 
 resource "azurerm_container_registry_webhook" "app_webhook" {
-  name                = "webhook-appservice"
+  name                = "webhookappservice"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   registry_name       = azurerm_container_registry.main.name
