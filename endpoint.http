@@ -1,4 +1,4 @@
-POST http://localhost/customer
+POST http://azapprpc-appservice.azurewebsites.net/customer
 Content-Type: application/json
 
 {
@@ -9,4 +9,4 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost/customer/1
+GET http://azapprpc-appservice.azurewebsites.net/customer/1
