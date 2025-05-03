@@ -2,7 +2,7 @@ POST http://azapprpc-appservice.azurewebsites.net/customer
 Content-Type: application/json
 
 {
-    "FullName": "Renicius Pagotto",
+    "FullName": "Renicius Pagotto Fostaini",
     "Address": "123 Main St",
     "Email": "renicius@test.com"
 }
