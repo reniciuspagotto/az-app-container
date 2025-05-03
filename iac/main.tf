@@ -102,7 +102,7 @@ resource "azurerm_container_registry_task" "mytask" {
     dockerfile_path      = "Dockerfile"
     context_path         = "https://github.com/reniciuspagotto/az-netapp-container#main:."
     context_access_token = var.github_pat
-    image_names          = ["azapp:{{.Run.Commit.Substring 0 7}}"]
+    image_names          = ["azapp:{{.Run.Commit}}"]
   }
 
   source_trigger {
