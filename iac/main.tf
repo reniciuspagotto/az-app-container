@@ -74,7 +74,7 @@ resource "azurerm_linux_web_app" "main" {
 
     application_stack {
       docker_registry_url = "https://${azurerm_container_registry.main.login_server}"
-      docker_image_name   = "product-service:latest"
+      docker_image_name   = "azapp:latest"
     }
   }
 
