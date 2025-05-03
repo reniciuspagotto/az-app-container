@@ -81,6 +81,7 @@ resource "azurerm_linux_web_app" "main" {
   app_settings = {
     "WEBSITES_PORT"                       = "8080"
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
+    "DOCKER_ENABLE_CI"                    = "true"
   }
 
   connection_string {
@@ -117,5 +118,22 @@ resource "azurerm_container_registry_task" "mytask" {
       token_type = "PAT"
       scope      = "repo" 
     }
+  }
+}
+
+resource "azurerm_container_registry_webhook" "app_webhook" {
+  name                = "webhook-appservice"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  registry_name       = azurerm_container_registry.main.name
+  
+  service_uri         = "<https://${azurerm_linux_web_app.main.site_credential>[0].username}:${azurerm_linux_web_app.main.site_credential[0].password}@${lower(azurerm_linux_web_app.main.name)}.scm.azurewebsites.net/docker/hook"
+  
+  status              = "enabled"
+  scope               = "azapp:*"
+  actions             = ["push"]
+  
+  custom_headers = {
+    "Content-Type" = "application/json"
   }
 }
