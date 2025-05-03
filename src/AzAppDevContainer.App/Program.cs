@@ -48,13 +48,13 @@ app.MapGet("/customer/{id}", async (int id, DataContext context) =>
     {
         var customer = await context.Customers.Where(p => p.Id == id).FirstOrDefaultAsync();
 
-        return customer is null ? Results.NotFound() : Results.Ok(new { 
-            customer.Id, 
-            customer.FullName, 
-            NewProperty = "New Value" 
-        });
+        // return customer is null ? Results.NotFound() : Results.Ok(new { 
+        //     customer.Id, 
+        //     customer.FullName, 
+        //     NewProperty = "New Value" 
+        // });
 
-        // return customer is null ? Results.NotFound() : Results.Ok(customer);
+        return customer is null ? Results.NotFound() : Results.Ok(customer);
     })
     .WithName("Get Customer")
     .WithOpenApi();
