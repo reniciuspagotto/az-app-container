@@ -127,7 +127,7 @@ resource "azurerm_container_registry_webhook" "app_webhook" {
   location            = azurerm_resource_group.main.location
   registry_name       = azurerm_container_registry.main.name
   
-  service_uri         = "<https://${azurerm_linux_web_app.main.site_credential>[0].username}:${azurerm_linux_web_app.main.site_credential[0].password}@${lower(azurerm_linux_web_app.main.name)}.scm.azurewebsites.net/docker/hook"
+  service_uri         = "https://${azurerm_linux_web_app.main.site_credential.0.name}:${azurerm_linux_web_app.main.site_credential.0.password}@${lower(azurerm_linux_web_app.main.name)}.scm.azurewebsites.net/docker/hook"
   
   status              = "enabled"
   scope               = "azapp:*"
