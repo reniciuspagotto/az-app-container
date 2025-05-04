@@ -41,7 +41,7 @@ jobs:
     needs: build
     uses: reniciuspagotto/ci-cd-reusable-composite/.github/workflows/security.yml@main
     with:
-      image_name: ${{ env.IMAGE_NAME }}
+      image_name: azapp:latest
       solution_file_path: ./AzAppDevContainer.sln
     secrets: inherit
 
