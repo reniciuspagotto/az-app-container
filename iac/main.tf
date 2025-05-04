@@ -92,7 +92,7 @@ resource "azurerm_linux_web_app" "main" {
 }
 
 resource "azurerm_container_registry_task" "mytask" {
-  name                  = "product-service-task"
+  name                  = "az-app-task"
   container_registry_id = azurerm_container_registry.main.id
 
   platform {
