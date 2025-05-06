@@ -91,49 +91,49 @@ resource "azurerm_linux_web_app" "main" {
   }
 }
 
-# resource "azurerm_container_registry_task" "mytask" {
-#   name                  = "az-app-task"
-#   container_registry_id = azurerm_container_registry.main.id
+resource "azurerm_container_registry_task" "mytask" {
+  name                  = "az-app-task"
+  container_registry_id = azurerm_container_registry.main.id
 
-#   platform {
-#     os = "Linux"
-#   }
+  platform {
+    os = "Linux"
+  }
 
-#   docker_step {
-#     dockerfile_path      = "Dockerfile"
-#     context_path         = "https://github.com/reniciuspagotto/az-netapp-container#main:."
-#     context_access_token = var.github_pat
-#     image_names          = ["azapp:{{.Run.Commit}}", "azapp:latest"]
-#   }
+  docker_step {
+    dockerfile_path      = "Dockerfile"
+    context_path         = "https://github.com/reniciuspagotto/az-netapp-container#main:."
+    context_access_token = var.github_pat
+    image_names          = ["azapp:{{.Run.Commit}}", "azapp:latest"]
+  }
 
-#   source_trigger {
-#     name            = "code-change"
-#     events          = ["commit"]
-#     repository_url  = "https://github.com/reniciuspagotto/az-netapp-container.git"
-#     branch          = "main"
-#     source_type     = "Github"
+  source_trigger {
+    name            = "code-change"
+    events          = ["commit"]
+    repository_url  = "https://github.com/reniciuspagotto/az-netapp-container.git"
+    branch          = "main"
+    source_type     = "Github"
 
-#     authentication {
-#       token      = var.github_pat 
-#       token_type = "PAT"
-#       scope      = "repo" 
-#     }
-#   }
-# }
+    authentication {
+      token      = var.github_pat 
+      token_type = "PAT"
+      scope      = "repo" 
+    }
+  }
+}
 
-# resource "azurerm_container_registry_webhook" "app_webhook" {
-#   name                = "webhookappservice"
-#   resource_group_name = azurerm_resource_group.main.name
-#   location            = azurerm_resource_group.main.location
-#   registry_name       = azurerm_container_registry.main.name
+resource "azurerm_container_registry_webhook" "app_webhook" {
+  name                = "webhookappservice"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  registry_name       = azurerm_container_registry.main.name
   
-#   service_uri         = "https://${azurerm_linux_web_app.main.site_credential.0.name}:${azurerm_linux_web_app.main.site_credential.0.password}@${lower(azurerm_linux_web_app.main.name)}.scm.azurewebsites.net/api/registry/webhook"
+  service_uri         = "https://${azurerm_linux_web_app.main.site_credential.0.name}:${azurerm_linux_web_app.main.site_credential.0.password}@${lower(azurerm_linux_web_app.main.name)}.scm.azurewebsites.net/api/registry/webhook"
   
-#   status              = "enabled"
-#   scope               = "azapp:*"
-#   actions             = ["push"]
+  status              = "enabled"
+  scope               = "azapp:*"
+  actions             = ["push"]
   
-#   custom_headers = {
-#     "Content-Type" = "application/json"
-#   }
-# }
+  custom_headers = {
+    "Content-Type" = "application/json"
+  }
+}

@@ -36,14 +36,14 @@ jobs:
       - name: Dotnet Test
         run: dotnet test
 
-  # security-scan:
-  #   name: Security
-  #   needs: build
-  #   uses: reniciuspagotto/gh-actions-reusable-components/.github/workflows/security.yml@main
-  #   with:
-  #     image_name: azapp:latest
-  #     solution_file_path: ./AzAppDevContainer.sln
-  #   secrets: inherit
+  security-scan:
+    name: Security
+    needs: build
+    uses: reniciuspagotto/gh-actions-reusable-components/.github/workflows/security.yml@main
+    with:
+      image_name: azapp:latest
+      solution_file_path: ./AzAppDevContainer.sln
+    secrets: inherit
 
   az-registry:
     name: Publish Artifact to Azure Container Registry
