@@ -101,7 +101,7 @@ resource "azurerm_container_registry_task" "mytask" {
 
   docker_step {
     dockerfile_path      = "Dockerfile"
-    context_path         = "https://github.com/reniciuspagotto/az-netapp-container#main:."
+    context_path         = "https://github.com/reniciuspagotto/az-app-container#main:."
     context_access_token = var.github_pat
     image_names          = ["azapp:{{.Run.Commit}}", "azapp:latest"]
   }
@@ -109,7 +109,7 @@ resource "azurerm_container_registry_task" "mytask" {
   source_trigger {
     name            = "code-change"
     events          = ["commit"]
-    repository_url  = "https://github.com/reniciuspagotto/az-netapp-container.git"
+    repository_url  = "https://github.com/reniciuspagotto/az-app-container.git"
     branch          = "main"
     source_type     = "Github"
 
