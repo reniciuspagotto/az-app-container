@@ -1,4 +1,4 @@
-name: Build and Deploy App 
+name: Build and Deploy App 2
 
 on:
   workflow_dispatch:
