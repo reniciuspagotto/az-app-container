@@ -1,10 +1,7 @@
-name: Build and Deploy App 2
+name: Build and Deploy App
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
 
 permissions:
   id-token: write
