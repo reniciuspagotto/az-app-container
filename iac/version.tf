@@ -11,10 +11,10 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "MvpConfOnline"
-    storage_account_name = "rpftfstate"
-    container_name       = "tfstate"
-    key                  = "devapp.tfstate"
+    resource_group_name  = "MvpConfInfraStatus"
+    storage_account_name = "mvpconfinfra"
+    container_name       = "mvpconftfstate"
+    key                  = "azapp.tfstate"
     use_oidc = true
   }
 }
