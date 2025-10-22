@@ -37,7 +37,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -input=false -out azapp.tfplan -var="github_pat=${{ secrets.TF_VAR_github_pat }}"
+        run: terraform plan -input=false -out azapp.tfplan -var="github_pat=${{ secrets.TF_VAR_GITHUB_PAT }}"
 
       - name: Terraform Apply
         run: terraform apply -auto-approve azapp.tfplan
