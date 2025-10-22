@@ -119,20 +119,6 @@ resource "azurerm_container_registry_task" "mytask" {
       scope      = "repo" 
     }
   }
-
-  source_trigger {
-    name            = "code-change-feature"
-    events          = ["commit"]
-    repository_url  = "https://github.com/reniciuspagotto/az-app-container.git"
-    branch          = "feature-*"
-    source_type     = "Github"
-
-    authentication {
-      token      = var.github_pat 
-      token_type = "PAT"
-      scope      = "repo" 
-    }
-  }
 }
 
 resource "azurerm_container_registry_webhook" "app_webhook" {
