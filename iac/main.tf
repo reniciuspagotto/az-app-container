@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "main" {
-  name     = "AzDevOps"
+  name     = "MvpConf"
   location = "Brazil South"
 }
 
