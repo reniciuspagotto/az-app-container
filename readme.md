@@ -1,8 +1,8 @@
-# .NET 8 Application with Docker, Terraform, and CI/CD 
+# .NET 10 Application with Docker, Terraform, and CI/CD 
 
 This repository contains a sample .NET 8 application designed to demonstrate modern development and deployment practices. The application connects to an Azure SQL Database using Entity Framework, providing a complete example of a cloud-based solution. The repo includes:
 
-- **.NET 8 Application**: A simple web application built on the latest .NET 8 framework.
+- **.NET 10 Application**: A simple web application built on the latest .NET 8 framework.
 - **Azure SQL Database**: The application is configured to connect to an Azure SQL Database, using Entity Framework for data access.
 - **Dockerfile**: Configuration to containerize the application for consistent and portable deployment.
 - **Terraform Files**: Infrastructure as code (IaC) scripts to provision and manage cloud resources required to run the application.
